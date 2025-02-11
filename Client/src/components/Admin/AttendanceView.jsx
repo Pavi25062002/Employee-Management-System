@@ -55,11 +55,13 @@ const AttendanceView = () => {
     } 
     const fetchEmployees = async () => {
         const emps = await getEmployees();
+        console.log(emps);
+        
         const leaders = await getLeaders();
-        emps.data.forEach(employee => empObj[employee.id] = [employee.name, employee.email]);
-        leaders.data.forEach(leader => empObj[leader.id] = [leader.name, leader.email]);
+        emps?.data?.forEach(employee => empObj[employee.id] = [employee.name, employee.email]);
+        leaders.data?.forEach(leader => empObj[leader.id] = [leader.name, leader.email]);
         setEmployeeMap(empObj);
-        setEmployees([...emps.data,...leaders.data]);
+        setEmployees([...emps?.data,...leaders?.data]);
         
     }
     fetchEmployees();

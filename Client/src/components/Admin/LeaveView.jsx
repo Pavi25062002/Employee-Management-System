@@ -155,8 +155,8 @@ const LeaveView = () => {
                  
                 <tr className='hover-effect' onClick={()=>history.push(`leaves/${application._id}`)}> 
                 <td>{idx+1}</td>  
-                <td>{employeeMap && employeeMap[application.applicantID][0]}</td>
-                <td>{employeeMap && employeeMap[application.applicantID][1]}</td>
+                <td>{employeeMap && employeeMap[application.applicantID]?.[0]}</td>
+                <td>{employeeMap && employeeMap[application.applicantID]?.[1]}</td>
                 <td>{application.type}</td>
                 <td>{application.title}</td>
                 <td>{application.appliedDate}</td>
