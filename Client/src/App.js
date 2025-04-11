@@ -44,6 +44,9 @@ import Leave from './components/Admin/Leave';
 import AssignSalary from './components/Admin/AssignSalary';
 import Salaries from './components/Admin/Salaries';
 import SalaryView from './components/Admin/Salary';
+import TaskManager from './components/Task/createtask';
+import TaskList from './components/Task/Tasklist';
+import TaskDetails from './components/Task/Taskdetails';
 
 
 
@@ -82,6 +85,7 @@ const App = () =>
       <EmployeeRoute exact path='/userLeaveApplications/:id'>
         <LeaveApplication/>
       </EmployeeRoute>
+
       <GuestRoute exact path='/' >
         <Login/>
       </GuestRoute>
@@ -91,6 +95,21 @@ const App = () =>
       <GuestRoute exact path='/forgot' >
         <Forgot/>
       </GuestRoute>
+      <GuestRoute exact path='/task' >
+      <TaskManager/>
+      </GuestRoute>
+
+      <GuestRoute exact path='/tasklist' >
+      <TaskList/>
+      </GuestRoute>
+      
+      <GuestRoute exact path='/tasklist/:id' >
+      <TaskDetails/>
+      </GuestRoute>
+      
+     
+
+
       <ProtectedRoute exact path='/home'>
         <Home/>
       </ProtectedRoute>
@@ -148,6 +167,9 @@ const App = () =>
       <AdminRoute  path='/leaders'>
         <Leaders/>
       </AdminRoute>
+    
+      
+
     </Switch>
   )
 }
