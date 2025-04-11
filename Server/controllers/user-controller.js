@@ -29,7 +29,7 @@ class UserController {
         const user = {
             name,email,username,mobile,password,type,address,image:file.filename
         }
-
+        
         
         // console.log("Hello! I am here in create user");
         // console.log(user)
@@ -37,7 +37,6 @@ class UserController {
         const userResp = await userService.createUser(user);
        
         
-
         if(!userResp) return next(ErrorHandler.serverError('Failed To Create An Account'));
         res.json({success:true,message:'User has been Added',user:new UserDto(user)});
     }

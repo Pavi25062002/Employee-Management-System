@@ -1,9 +1,9 @@
 
-import {Redirect,Switch,Route} from 'react-router-dom'
+import { Redirect, Switch, Route } from 'react-router-dom'
 import Login from './pages/auth/Login'
 import Forgot from './pages/auth/Forgot'
 import Home from './pages/Home'
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 // import '../node_modules/materialize-css/dist/css/materialize.min.css';
 // import '../node_modules/materialize-css/dist/js/materialize.min.js';
 // import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
@@ -47,142 +47,161 @@ import SalaryView from './components/Admin/Salary';
 import TaskManager from './components/Task/createtask';
 import TaskList from './components/Task/Tasklist';
 import TaskDetails from './components/Task/Taskdetails';
+import OwnTaskList from './components/Task/MyAssignedTask';
+import TaskDashboard from './components/Taskdashboard/Dashboard';
+import PerformancePage from './components/performancepage/performance';
 
 
 
 
-// import './assets/css/asdfasdf';
-// import './assets/css/asdfasdf';
 
-const App = () =>
-{
+const App = () => {
   const loading = useAutoLogin();
 
-  return loading ? 
-  <Loading/> : (
-    <Switch>
-      <EmployeeRoute exact path='/userTeams'>
-        <UserTeams/>
-      </EmployeeRoute>
-      <EmployeeRoute exact path='/userteam/:id'>
-        <EmployeeTeam/>
-      </EmployeeRoute> 
-      <EmployeeRoute exact path='/dashboardEmployee'>
-        <DashboardEmployee/>
-      </EmployeeRoute>
-      <EmployeeRoute exact path='/userAttendance'>
-        <Attendance/>
-      </EmployeeRoute>
-      <EmployeeRoute exact path='/applyforleave'>
-        <ApplyForLeave/>
-      </EmployeeRoute>
-      <EmployeeRoute exact path='/userSalary'>
-        <Salary/>
-      </EmployeeRoute>
-      <EmployeeRoute exact path='/userLeaveApplications'>
-        <LeaveApplications/>
-      </EmployeeRoute>
-      <EmployeeRoute exact path='/userLeaveApplications/:id'>
-        <LeaveApplication/>
-      </EmployeeRoute>
+  return loading ?
+    <Loading /> : (
+      <Switch>
+        <EmployeeRoute exact path='/userTeams'>
+          <UserTeams />
+        </EmployeeRoute>
+        <EmployeeRoute exact path='/userteam/:id'>
+          <EmployeeTeam />
+        </EmployeeRoute>
+        <EmployeeRoute exact path='/dashboardEmployee'>
+          <DashboardEmployee />
+        </EmployeeRoute>
+        <EmployeeRoute exact path='/userAttendance'>
+          <Attendance />
+        </EmployeeRoute>
+        <EmployeeRoute exact path='/applyforleave'>
+          <ApplyForLeave />
+        </EmployeeRoute>
+        <EmployeeRoute exact path='/userSalary'>
+          <Salary />
+        </EmployeeRoute>
+        <EmployeeRoute exact path='/userLeaveApplications'>
+          <LeaveApplications />
+        </EmployeeRoute>
+        <EmployeeRoute exact path='/userLeaveApplications/:id'>
+          <LeaveApplication />
+        </EmployeeRoute>
 
-      <GuestRoute exact path='/' >
-        <Login/>
-      </GuestRoute>
-      <GuestRoute exact path='/login' >
-        <Login/>
-      </GuestRoute>
-      <GuestRoute exact path='/forgot' >
-        <Forgot/>
-      </GuestRoute>
-      <GuestRoute exact path='/task' >
-      <TaskManager/>
-      </GuestRoute>
+        <GuestRoute exact path='/' >
+          <Login />
+        </GuestRoute>
+        <GuestRoute exact path='/login' >
+          <Login />
+        </GuestRoute>
+        <GuestRoute exact path='/forgot' >
+          <Forgot />
+        </GuestRoute>
 
-      <GuestRoute exact path='/tasklist' >
-      <TaskList/>
-      </GuestRoute>
-      
-      <GuestRoute exact path='/tasklist/:id' >
-      <TaskDetails/>
-      </GuestRoute>
-      
-     
+       
+
+        <ProtectedRoute exact path='/home'>
+          <Home />
+        </ProtectedRoute>
+        <AdminRoute exact path='/employees'>
+          <Employees />
+        </AdminRoute>
+        <LeaderRoute exact path='/members'>
+          <Members />
+        </LeaderRoute>
+        <AdminRoute exact path='/admins'>
+          <Admins />
+        </AdminRoute>
+        <AdminRoute exact path='/teams'>
+          <Teams />
+        </AdminRoute>
+        <AdminRoute exact path='/adduser'>
+          <AddUser />
+        </AdminRoute>
+        <AdminRoute exact path='/attendance'>
+          <AttendanceView />
+        </AdminRoute>
+        <AdminRoute exact path='/leaves'>
+          <LeaveView />
+        </AdminRoute>
+        <AdminRoute exact path='/assignSalary'>
+          <AssignSalary />
+        </AdminRoute>
+        <AdminRoute exact path='/salaries'>
+          <Salaries />
+        </AdminRoute>
+        <AdminRoute exact path='/leaves/:id'>
+          <Leave />
+        </AdminRoute>
+        <AdminRoute exact path='/salary/:id'>
+          <SalaryView />
+        </AdminRoute>
+        <AdminRoute exact path='/addteam'>
+          <AddTeam />
+        </AdminRoute>
+        <AdminRoute path='/employee/:id'>
+          <Employee />
+        </AdminRoute>
+        <AdminRoute path='/team/:id'>
+          <Team />
+        </AdminRoute>
+        <AdminRoute path='/edituser/:id'>
+          <EditUser />
+        </AdminRoute>
+        <AdminRoute path='/editteam/:id'>
+          <EditTeam />
+        </AdminRoute>
+        <AdminRoute path='/admin/:id'>
+          <Admin />
+        </AdminRoute>
+        <AdminRoute path='/leaders'>
+          <Leaders />
+        </AdminRoute>
+
+        <AdminRoute path='/tasklists'>
+          <TaskList />
+        </AdminRoute>
+        <AdminRoute exact path='/creatask' >
+          <TaskManager />
+        </AdminRoute>
+        <AdminRoute exact path='/tasklist/:id' >
+          <TaskDetails />
+        </AdminRoute>
+        <AdminRoute exact path='/taskdashboard' >
+          <TaskDashboard />
+        </AdminRoute>
+        <AdminRoute exact path='/performancepage' >
+          <PerformancePage />
+        </AdminRoute>
+        
+        
 
 
-      <ProtectedRoute exact path='/home'>
-        <Home/>
-      </ProtectedRoute>
-      <AdminRoute exact path='/employees'>
-        <Employees/>
-      </AdminRoute>
-      <LeaderRoute exact path='/members'>
-        <Members/>
-      </LeaderRoute>
-      <AdminRoute exact path='/admins'>
-        <Admins/>
-      </AdminRoute>
-      <AdminRoute exact path='/teams'>
-        <Teams/>
-      </AdminRoute>
-      <AdminRoute exact path='/adduser'>
-        <AddUser/>
-      </AdminRoute>
-      <AdminRoute exact path='/attendance'>
-        <AttendanceView/>
-      </AdminRoute>
-      <AdminRoute exact path='/leaves'>
-        <LeaveView/>
-      </AdminRoute>
-      <AdminRoute exact path='/assignSalary'>
-        <AssignSalary/>
-      </AdminRoute>
-      <AdminRoute exact path='/salaries'>
-        <Salaries/>
-      </AdminRoute>
-      <AdminRoute exact path='/leaves/:id'>
-        <Leave/>
-      </AdminRoute>
-      <AdminRoute exact path='/salary/:id'>
-        <SalaryView/>
-      </AdminRoute>
-      <AdminRoute exact path='/addteam'>
-        <AddTeam/>
-      </AdminRoute>
-      <AdminRoute  path='/employee/:id'>
-        <Employee/>
-      </AdminRoute>
-      <AdminRoute  path='/team/:id'>
-        <Team/>
-      </AdminRoute> 
-      <AdminRoute  path='/edituser/:id'>
-        <EditUser/>
-      </AdminRoute>
-      <AdminRoute  path='/editteam/:id'>
-        <EditTeam/>
-      </AdminRoute>
-      <AdminRoute  path='/admin/:id'>
-        <Admin/>
-      </AdminRoute>
-      <AdminRoute  path='/leaders'>
-        <Leaders/>
-      </AdminRoute>
-    
-      
+        <EmployeeRoute path='/tasks'>
+          <TaskList />
+        </EmployeeRoute>
+        <EmployeeRoute exact path='/team-creatask' >
+          <TaskManager />
+        </EmployeeRoute>
+        <EmployeeRoute exact path='/team-creatask/:id' >
+          <TaskDetails />
+        </EmployeeRoute>
+        <EmployeeRoute exact path='/my-task' >
+          <OwnTaskList />
+        </EmployeeRoute>
+        
+        
 
-    </Switch>
-  )
+
+      </Switch>
+    )
 }
 
 
-const GuestRoute = ({children,...rest}) =>
-{
-  const {isAuth} = useSelector((state)=>state.authSlice);
-  return(
-    <Route {...rest} render={({location})=>
-    {
+const GuestRoute = ({ children, ...rest }) => {
+  const { isAuth } = useSelector((state) => state.authSlice);
+  return (
+    <Route {...rest} render={({ location }) => {
       return isAuth ? (
-        <Redirect to={{pathname:'/home',state:{from:location}}} />
+        <Redirect to={{ pathname: '/home', state: { from: location } }} />
       ) : (children);
     }}>
     </Route>
@@ -190,22 +209,21 @@ const GuestRoute = ({children,...rest}) =>
 }
 
 
-const ProtectedRoute = ({children,...rest}) =>
-{
-  const {isAuth} = useSelector((state)=>state.authSlice);
+const ProtectedRoute = ({ children, ...rest }) => {
+  const { isAuth } = useSelector((state) => state.authSlice);
   return (
-    <Route {...rest} render={({location})=>{
+    <Route {...rest} render={({ location }) => {
       return isAuth ? (
         <>
-          <SideBar/>
-          <Navigation/>
+          <SideBar />
+          <Navigation />
           {children}
         </>) : (
         <Redirect
           to={{
-            pathname:'/',
-            state:{
-              from:location
+            pathname: '/',
+            state: {
+              from: location
             }
           }}
         />
@@ -218,18 +236,18 @@ const AdminRoute = ({children,...rest}) =>
 {
   const {user} = useSelector((state)=>state.authSlice);
   return (
-    <Route {...rest} render={({location})=>{
-      return user && user.type==='Admin' ? (
+    <Route {...rest} render={({ location }) => {
+      return user && user.type === 'Admin' ? (
         <>
-          <SideBar/>
-          <Navigation/>
+          <SideBar />
+          <Navigation />
           {children}
         </>) : (
         <Redirect
           to={{
-            pathname:'/',
-            state:{
-              from:location
+            pathname: '/',
+            state: {
+              from: location
             }
           }}
         />
@@ -238,22 +256,21 @@ const AdminRoute = ({children,...rest}) =>
   );
 }
 
-const AdminLeaderRouter = ({children,...rest}) =>
-{
-  const {user} = useSelector((state)=>state.authSlice);
+const AdminLeaderRouter = ({ children, ...rest }) => {
+  const { user } = useSelector((state) => state.authSlice);
   return (
-    <Route {...rest} render={({location})=>{
-      return user && (user.type==='Admin' || user.type==='Leader') ? (
+    <Route {...rest} render={({ location }) => {
+      return user && (user.type === 'Admin' || user.type === 'Leader') ? (
         <>
-          <SideBar/>
-          <Navigation/>
+          <SideBar />
+          <Navigation />
           {children}
         </>) : (
         <Redirect
           to={{
-            pathname:'/',
-            state:{
-              from:location
+            pathname: '/',
+            state: {
+              from: location
             }
           }}
         />
@@ -263,22 +280,21 @@ const AdminLeaderRouter = ({children,...rest}) =>
 }
 
 
-const LeaderRoute = ({children,...rest}) =>
-{
-  const {user} = useSelector((state)=>state.authSlice);
+const LeaderRoute = ({ children, ...rest }) => {
+  const { user } = useSelector((state) => state.authSlice);
   return (
-    <Route {...rest} render={({location})=>{
-      return user && user.type==='Leader' ? (
+    <Route {...rest} render={({ location }) => {
+      return user && user.type === 'Leader' ? (
         <>
-          <SideBar/>
-          <Navigation/>
+          <SideBar />
+          <Navigation />
           {children}
         </>) : (
         <Redirect
           to={{
-            pathname:'/',
-            state:{
-              from:location
+            pathname: '/',
+            state: {
+              from: location
             }
           }}
         />
@@ -287,22 +303,21 @@ const LeaderRoute = ({children,...rest}) =>
   );
 }
 
-const EmployeeRoute = ({children,...rest}) =>
-{
-  const {user} = useSelector((state)=>state.authSlice);
+const EmployeeRoute = ({ children, ...rest }) => {
+  const { user } = useSelector((state) => state.authSlice);
   return (
-    <Route {...rest} render={({location})=>{
-      return user && user.type==='Employee' || user.type==='Leader' ? (
+    <Route {...rest} render={({ location }) => {
+      return user && user.type === 'Employee' || user.type === 'Leader' ? (
         <>
-          <SideBar/>
-          <Navigation/>
+          <SideBar />
+          <Navigation />
           {children}
         </>) : (
         <Redirect
           to={{
-            pathname:'/',
-            state:{
-              from:location
+            pathname: '/',
+            state: {
+              from: location
             }
           }}
         />

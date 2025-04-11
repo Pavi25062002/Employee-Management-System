@@ -6,8 +6,8 @@ const TaskSchema = new Schema({
     description: { type: String, default: '' },
     priority: { type: String, enum: ['Low', 'Medium', 'High'], default: 'Medium' },
     status: { type: String, enum: ['Pending', 'In Progress', 'Completed', 'Extension Requested'], default: 'Pending' },
-    assignedBy: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    assignedTo: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    assignedBy: { type: String, ref: 'User', required: true },
+    assignedTo: { type: String, ref: 'User', required: true },
     deadline: { type: Date, required: true },
     comments: [{
         commenter: { type: Schema.Types.ObjectId, ref: 'User' },

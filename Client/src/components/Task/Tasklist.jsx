@@ -5,14 +5,37 @@ import moment from 'moment';
 import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom';
+import { useSelector } from 'react-redux';
+import { right } from '@popperjs/core';
+import * as XLSX from 'xlsx';
+import jsPDF from 'jspdf';
 
 toast.configure();
 
 const TaskList = () => {
 
-  const history=useHistory() 
+  const history = useHistory()
 
- 
+  const admin = "/team-creatask/"
+  // const user=JSON.parse(localStorage.getItem("user"))
+  const { user } = useSelector(state => state.authSlice);
+  const role = user.type
+
+
+  console.log(role);
+
+
+  const navigate = (id) => {
+
+    if (role == "Leader") {
+      history.push(admin + id)
+    } else {
+      history.push(`/tasklist/${id}`)
+    }
+
+  }
+
+
 
   const [tasks, setTasks] = useState([]);
   const [search, setSearch] = useState('');
@@ -28,6 +51,47 @@ const TaskList = () => {
     }
   };
 
+  
+      const exportToExcel = () => {
+          const worksheet = XLSX.utils.json_to_sheet(filteredTasks);
+          const workbook = XLSX.utils.book_new();
+          XLSX.utils.book_append_sheet(workbook, worksheet, 'Tasks');
+          XLSX.writeFile(workbook, 'MyTasks.xlsx');
+        };
+        
+        const exportToPDF = () => {
+          const doc = new jsPDF();
+          let x = 10, y = 10;
+          const boxWidth = 180;
+          const boxHeight = 60;
+          const gap = 10;
+        
+          filteredTasks.forEach((task, index) => {
+            if (y + boxHeight > 280) {
+              doc.addPage();
+              y = 10;
+            }
+        
+            doc.setDrawColor(0);
+            doc.setFillColor(240, 240, 240);
+            doc.rect(x, y, boxWidth, boxHeight, 'FD');
+        
+            doc.setFontSize(12);
+            doc.setTextColor(40, 40, 40);
+            doc.text(`${task.title}`, x + 5, y + 10);
+            doc.setFontSize(10);
+            doc.text(` ${task.description}`, x + 5, y + 20);
+            doc.text(` Deadline: ${moment(task.deadline).format('MMM DD, YYYY')}`, x + 5, y + 30);
+            doc.text(` Status: ${task.status}`, x + 5, y + 38);
+            doc.text(` Priority: ${task.priority}`, x + 5, y + 45);
+            doc.text(` Assigned By: ${task.assignedBy}`, x + 5, y + 52);
+        
+            y += boxHeight + gap;
+          });
+        
+          doc.save('MyTasks.pdf');
+        };
+  
   useEffect(() => {
     fetchTasks();
   }, []);
@@ -44,11 +108,16 @@ const TaskList = () => {
   });
 
   return (
-    <div className="container mt-5">
+    <div className="container mt-7" >
       <h2 className="text-center mb-4">📋 Task Management Dashboard</h2>
 
       {/* Filters */}
+
       <div className="row g-3 mb-4">
+        <div className="mb-3 d-flex justify-content-end gap-2">
+          <button className="btn btn-success" onClick={exportToExcel}>Export to Excel</button>
+          <button className="btn btn-danger" onClick={exportToPDF}>Export to PDF</button>
+        </div>
         <div className="col-md-4">
           <input
             className="form-control"
@@ -102,7 +171,7 @@ const TaskList = () => {
                   <p className="mb-1"><strong>Assigned To:</strong> {task.assignedTo?.name || 'User ID'}</p>
 
                   <div className="mt-auto d-flex justify-content-end">
-                    <button className="btn btn-sm btn-outline-primary me-2" onClick={()=> history.push(`/tasklist/${task._id}`)}>View</button>
+                    <button className="btn btn-sm btn-outline-primary me-2" onClick={() => navigate(task._id)}>View</button>
                     <button className="btn btn-sm btn-outline-danger">Delete</button>
                   </div>
                 </div>

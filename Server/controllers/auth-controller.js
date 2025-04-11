@@ -22,6 +22,8 @@ class AuthController {
             data = {username:email};
         const user = await userService.findUser(data);
        
+        console.log(user);
+        
         
         if(!user) return next(ErrorHandler.badRequest('Invalid Email or Username'));
         const {_id,name,username,email:dbEmail,password:hashPassword,type,status} = user;

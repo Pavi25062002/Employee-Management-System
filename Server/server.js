@@ -38,8 +38,8 @@ app.use('/api/auth',authRoute);
 app.use('/api/admin',auth,authRole(['admin']),adminRoute);
 app.use('/api/employee',auth,authRole(['employee','leader']),employeeRoute);
 app.use('/api/leader',auth,authRole(['leader']),leaderRoute);
-
 app.use("/api",require("./routes/task-route"));
+app.use('/api/performance', require('./routes/performance'));
 
 app.use('/storage',express.static('storage'))
 
@@ -50,7 +50,6 @@ app.use((req,res,next)=>
 });
 
 app.use(errorMiddleware)
-
 
 
 

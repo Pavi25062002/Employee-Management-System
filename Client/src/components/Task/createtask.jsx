@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import swal from 'sweetalert';
+import { getAdmins, getLeaders } from '../../http';
 
-// ✅ Static User List
 const staticUsers = [
   { _id: '6613be2a354a0aeb8f23d101', name: 'Alice' },
   { _id: '6613be2a354a0aeb8f23d102', name: 'Bob' },
@@ -13,7 +13,24 @@ const priorities = ['Low', 'Medium', 'High'];
 const statuses = ['Pending', 'In Progress', 'Completed', 'Extension Requested'];
 
 const CreateTask = () => {
-  const users = staticUsers;
+  const [users, setUsers] = useState();
+  const [admins, setadmins] = useState();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [leadersRes, adminsRes] = await Promise.all([getLeaders(), getAdmins()]);
+        if (leadersRes.success) setUsers(leadersRes.data);
+        if (adminsRes.success) setadmins(adminsRes.data);
+      } catch (err) {
+        console.error('Error fetching users/admins', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
 
   const [task, setTask] = useState({
     title: '',
@@ -21,7 +38,7 @@ const CreateTask = () => {
     priority: 'Medium',
     status: 'Pending',
     assignedBy: '',
-    assignedTo: [],
+    assignedTo: '',
     deadline: '',
     extensionRequested: {
       requested: false,
@@ -29,6 +46,10 @@ const CreateTask = () => {
       reason: ''
     }
   });
+
+  useEffect(() => {
+    console.log('Task State:', task);
+  }, [task]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -48,14 +69,14 @@ const CreateTask = () => {
   };
 
   const handleAssignedToChange = (e) => {
-    const options = e.target.options;
-    const selected = [];
-    for (let i = 0; i < options.length; i++) {
-      if (options[i].selected) {
-        selected.push(options[i].value);
-      }
-    }
-    setTask((prev) => ({ ...prev, assignedTo: selected }));
+
+   const user= users.filter(user=>user.name===e.target.value)
+   console.log(user[0]);
+   
+    setTask((prev) => ({
+      ...prev,
+      assignedTo: e.target.value
+    }));
   };
 
   const toggleExtensionRequest = () => {
@@ -70,6 +91,8 @@ const CreateTask = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('Submitting Task:', JSON.stringify(task, null, 2));
+
     try {
       await axios.post('http://localhost:5500/api/tasks', task);
       swal("Success", "Task Created Successfully!", "success");
@@ -80,6 +103,8 @@ const CreateTask = () => {
   };
 
   return (
+    <div className="d-flex justify-content-center">
+  <div className="container mt-4">
     <div className="container mt-4">
       <h3>Create New Task</h3>
       <form onSubmit={handleSubmit} className="mt-3">
@@ -113,17 +138,23 @@ const CreateTask = () => {
           <label className="form-label">Assigned By</label>
           <select className="form-select" name="assignedBy" value={task.assignedBy} onChange={handleChange}>
             <option value="">Select User</option>
-            {users.map((user) => (
-              <option key={user._id} value={user._id}>{user.name}</option>
+            {admins?.map((user) => (
+              <option key={user?.email} value={user?.email}>{user?.email}</option>
             ))}
           </select>
         </div>
 
         <div className="mb-3">
-          <label className="form-label">Assigned To (Multiple)</label>
-          <select multiple className="form-select" value={task.assignedTo} onChange={handleAssignedToChange}>
-            {users.map((user) => (
-              <option key={user._id} value={user._id}>{user.name}</option>
+          <label className="form-label">Assigned To</label>
+          <select
+            className="form-select"
+            name="assignedTo"
+            value={task.assignedTo}
+            onChange={handleAssignedToChange}
+          >
+            <option value="">Select User</option>
+            {users?.map((user) => (
+              <option key={user?.email} value={user?.email}>{user?.email}</option>
             ))}
           </select>
         </div>
@@ -174,6 +205,8 @@ const CreateTask = () => {
         <button type="submit" className="btn btn-primary">Create Task</button>
       </form>
     </div>
+    </div>
+    </div>  
   );
 };
 

@@ -63,3 +63,21 @@ exports.Getalltasks = async (req, res) => {
     }
   };
     
+  exports.Gettasksbyownid = async (req, res) => {
+
+    try {
+      const task = await Task.find({assignedTo:req.params.email});
+      console.log(task);
+      
+      res.json(task);
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+    }
+  };
+
+
+
+  
+    
+
+
