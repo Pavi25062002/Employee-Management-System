@@ -9,25 +9,61 @@ class MailTemplate{
     }
 
     // 🆕 Task Assigned
-  taskAssigned = (name, taskTitle, deadline, priority) => {
-    const subject = `📌 New Task Assigned in ${websiteName}`;
-    const text = `Hey ${name},\n\nYou’ve been assigned a new task titled "${taskTitle}".\n\n📅 Deadline: ${deadline}\n⚠️ Priority: ${priority}\n\nPlease check your dashboard and start working on it.\n\nBest,\n${websiteName} Team`;
-    return { subject, text };
-  };
+ taskAssigned = (name, taskTitle, deadline, priority) => {
+  const subject = `📌 New Task Assigned in ${websiteName}`;
+  const html = `
+    <div style="font-family: Arial, sans-serif; color: #333;">
+      <h2 style="color: #2c3e50;">📌 New Task Assigned</h2>
+      <p>Hi <strong>${name}</strong>,</p>
+      <p>You’ve been assigned a new task:</p>
+      <table style="border-collapse: collapse; width: 100%;">
+        <tr><td><strong>📝 Task Title:</strong></td><td>${taskTitle}</td></tr>
+        <tr><td><strong>📅 Deadline:</strong></td><td>${deadline}</td></tr>
+        <tr><td><strong>⚠️ Priority:</strong></td><td>${priority}</td></tr>
+      </table>
+      <p style="margin-top: 20px;">Please check your dashboard and get started.</p>
+      <p>Best regards,<br><strong>${websiteName} Team</strong></p>
+    </div>
+  `;
+  return { subject, html };
+};
+
 
   // 🔄 Extension Request Notification to Admin
-  extensionRequest = (adminName, employeeName, taskTitle, newDeadline, reason) => {
-    const subject = `🔁 Extension Requested for Task: ${taskTitle}`;
-    const text = `Hi ${adminName},\n\n${employeeName} has requested an extension for the task "${taskTitle}".\n\n📅 New Requested Deadline: ${newDeadline}\n📝 Reason: ${reason}\n\nPlease review this request in your admin dashboard.\n\nRegards,\n${websiteName} System`;
-    return { subject, text };
-  };
+extensionRequest = (adminName, employeeName, taskTitle, newDeadline, reason) => {
+  const subject = `🔁 Extension Requested for Task: ${taskTitle}`;
+  const html = `
+    <div style="font-family: Arial, sans-serif; color: #333;">
+      <h2 style="color: #d35400;">🔁 Task Extension Request</h2>
+      <p>Hello <strong>${adminName}</strong>,</p>
+      <p><strong>${employeeName}</strong> has requested an extension for the task titled "<strong>${taskTitle}</strong>".</p>
+      <table style="border-collapse: collapse; width: 100%;">
+        <tr><td><strong>📅 New Deadline:</strong></td><td>${newDeadline}</td></tr>
+        <tr><td><strong>📝 Reason:</strong></td><td>${reason}</td></tr>
+      </table>
+      <p style="margin-top: 20px;">Please review the request in your admin dashboard.</p>
+      <p>Regards,<br><strong>${websiteName} System</strong></p>
+    </div>
+  `;
+  return { subject, html };
+};
+
 
   // ✅ Task Completed Notification to Admin
-  taskCompleted = (adminName, taskTitle, employeeName) => {
-    const subject = `✅ Task Completed: ${taskTitle}`;
-    const text = `Hello ${adminName},\n\nThe task titled "${taskTitle}" has been marked as completed by ${employeeName}.\n\nPlease verify and mark it as closed if it meets the completion criteria.\n\nThanks,\n${websiteName} System`;
-    return { subject, text };
-  };
+ taskCompleted = (adminName, taskTitle, employeeName) => {
+  const subject = `✅ Task Completed: ${taskTitle}`;
+  const html = `  
+    <div style="font-family: Arial, sans-serif; color: #333;">
+      <h2 style="color: #27ae60;">✅ Task Completion Notification</h2>
+      <p>Hello <strong>${adminName}</strong>,</p>
+      <p>The task titled "<strong>${taskTitle}</strong>" has been marked as <strong>completed</strong> by <strong>${employeeName}</strong>.</p>
+      <p>Please review and mark it as closed if it meets the criteria.</p>
+      <p>Thanks,<br><strong>${websiteName} System</strong></p>
+    </div>
+  `;
+  return { subject, html };
+};
+
 
   // ⏰ Due Date Reminder
   dueDateReminder = (name, taskTitle, deadline) => {

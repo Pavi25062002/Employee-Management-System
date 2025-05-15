@@ -11,14 +11,34 @@ class MailService{
         return await this.sendMail(email,subject,text);
     }
 
+    
+  // 🆕 Task Assigned
+  sendTaskAssignedMail = async (name, email, taskTitle, deadline, priority) => {
+    const { subject, html } = mailTemplate.taskAssigned(name, taskTitle, deadline, priority);
+    return await this.sendMail(email, subject, html);
+  };
 
-    sendMail  = async (to,subject,text) =>
+  // 🔄 Extension Request to Admin
+  sendExtensionRequestMail = async (adminName, adminEmail, employeeName, taskTitle, newDeadline, reason) => {
+    const { subject, html } = mailTemplate.extensionRequest(adminName, employeeName, taskTitle, newDeadline, reason);
+    return await this.sendMail(adminEmail, subject, html);
+  };
+
+  // ✅ Task Completed Notification
+  sendTaskCompletedMail = async (adminName, adminEmail, taskTitle, employeeName) => {
+    const { subject, html } = mailTemplate.taskCompleted(adminName, taskTitle, employeeName);
+    return await this.sendMail(adminEmail, subject, html);
+  };
+
+
+
+    sendMail  = async (to,subject,html) =>
     {
         const mailOption = {
             from:smtpAuthUser,
             to,
             subject,
-            text
+            html
         }
 
         await transport.sendMail(mailOption,(err,info)=>
